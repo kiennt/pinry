@@ -120,6 +120,8 @@ bypass all these risks and just host it myself.
 dependencies for PIL installed.
 
 </p>
+<p>Note: On Ubuntu you can get the build deps by running <code>sudo apt-get build-dep python-imaging</code>.
+</p>
 <pre><code><span class="char">$ </span>git clone <span class="method">git:</span>//github.com/overshard/pinry.git
 <span class="char">$ </span>cd pinry
 <span class="char">$ </span>virtualenv .
@@ -127,15 +129,7 @@ dependencies for PIL installed.
 <span class="char">$ </span>bin/python manage.py syncdb
 <span class="char">$ </span>bin/python manage.py migrate
 <span class="char">$ </span>bin/python manage.py runserver</code></pre>
-<p>Note: If you are on Ubuntu 12.04 there is a bug in PIL that causes it to not
-build in JPG and PNG support. You&#39;ll need to follow all the steps above except
-before <code>virtualenv .</code> run <code>sudo apt-get install python-imaging</code> and instead of
-<code>virtualenv .</code> run <code>virtualenv --system-site-packages .</code>. On older versions of
-Ubuntu and older Linux distributions you&#39;ll need to install PIL dependencies.
-On Ubuntu this can be done with <code>sudo apt-get build-dep python-imaging</code>.
 
-
-</p>
 <h3 id='getting-started/jenkins'>Jenkins</h3 id='getting-started/jenkins'>
 <p>If you want to use Pinry with your own Jenkins server I&#39;ve already setup all of
 the settings on Pinry, just follow the instructions starting at section 3 on the
