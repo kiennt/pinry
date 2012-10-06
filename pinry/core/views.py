@@ -18,7 +18,7 @@ def private(request):
 
 
 def register(request):
-    if request.is_authenticated():
+    if request.user.is_authenticated():
         return HttpResponseRedirect(reverse('pins:recent-pins'))
 
     if not settings.ALLOW_NEW_REGISTRATIONS:

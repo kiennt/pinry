@@ -7,7 +7,13 @@ cssmin==0.1.4
 jsmin==2.0.2
 -e git://github.com/hcarvalhoalves/django-taggit.git@e0f9642d7b94c8e6c0feb520d96bb6ae4d78a4d0#egg=django-taggit
 psycopg2==2.4.4
+<<<<<<< HEAD
 -e git://github.com/kiennt/django-social-auth.git#egg=django-social-auth
 -e git://github.com/kiennt/django-activity-stream.git#egg=django-activity-stream
 -e git://github.com/kiennt/django-likes.git#egg=django-likes
+=======
+-e git@github.com:kiennt/django-social-auth.git@df51f5b7a12dc02c758429e6128be70d26080621#egg=django-social-auth
+-e git@github.com:kiennt/django-activity-stream.git@db9fd4038c1ac19d817c6be4b9836d1c3e68129a#egg=django-activity-stream
+-e git@github.com:kiennt/django-likes.git@ad23d6b5e7e8ac119e2d8312cae55ab9669a1157#egg=django-likes
+>>>>>>> d439ac012d716e91b445d37844cbd1b0f25be82a
 django-nose

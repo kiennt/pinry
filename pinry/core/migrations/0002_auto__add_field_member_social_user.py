@@ -8,17 +8,14 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'Member'
-        db.create_table('core_member', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('user', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True, null=True)),
-            ('avatar_url', self.gf('django.db.models.fields.files.ImageField')(default='/avatar/default_avatar.jpg', max_length=100)),
-        ))
-        db.send_create_signal('core', ['Member'])
+        # Adding field 'Member.social_user'
+        db.add_column('core_member', 'social_user',
+                      self.gf('django.db.models.fields.related.ForeignKey')(to=orm['social_auth.UserSocialAuth'], null=True),
+                      keep_default=False)
 
     def backwards(self, orm):
-        # Deleting model 'Member'
-        db.delete_table('core_member')
+        # Deleting field 'Member.social_user'
+        db.delete_column('core_member', 'social_user_id')
 
     models = {
         'auth.group': {
@@ -59,9 +56,17 @@ class Migration(SchemaMigration):
         },
         'core.member': {
             'Meta': {'object_name': 'Member'},
-            'avatar_url': ('django.db.models.fields.files.ImageField', [], {'default': "'/avatar/default_avatar.jpg'", 'max_length': '100'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'user': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['auth.User']", 'unique': 'True', 'null': 'True'})
+            'social_user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['social_auth.UserSocialAuth']", 'null': 'True'}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']", 'null': 'True'})
+        },
+        'social_auth.usersocialauth': {
+            'Meta': {'unique_together': "(('provider', 'uid'),)", 'object_name': 'UserSocialAuth'},
+            'extra_data': ('social_auth.fields.JSONField', [], {'default': "'{}'"}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'provider': ('django.db.models.fields.CharField', [], {'max_length': '32'}),
+            'uid': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'social_auth'", 'to': "orm['auth.User']"})
         }
     }
 
