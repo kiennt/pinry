@@ -27,31 +27,31 @@ STATIC_ROOT = os.path.join(SITE_ROOT, 'static/')
 STATIC_URL = '/static/'
 
 STATICFILES_FINDERS = (
-'django.contrib.staticfiles.finders.FileSystemFinder',
-'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-'compressor.finders.CompressorFinder',
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
 )
 TEMPLATE_LOADERS = (
-'django.template.loaders.filesystem.Loader',
-'django.template.loaders.app_directories.Loader',
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
 )
 MIDDLEWARE_CLASSES = (
-'django.middleware.common.CommonMiddleware',
-'django.contrib.sessions.middleware.SessionMiddleware',
-'django.contrib.auth.middleware.AuthenticationMiddleware',
-'django.contrib.messages.middleware.MessageMiddleware',
-'pinry.core.middleware.Public',
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'pinry.core.middleware.Public',
 )
 TEMPLATE_CONTEXT_PROCESSORS = (
-"django.contrib.auth.context_processors.auth",
-"django.core.context_processors.debug",
-"django.core.context_processors.i18n",
-"django.core.context_processors.media",
-"django.core.context_processors.static",
-"django.core.context_processors.request",
-"django.contrib.messages.context_processors.messages",
-"pinry.core.context_processors.template_settings",
-'social_auth.context_processors.social_auth_by_type_backends',
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.request",
+    "django.contrib.messages.context_processors.messages",
+    "pinry.core.context_processors.template_settings",
+    'social_auth.context_processors.social_auth_by_type_backends',
 )
 
 COMPRESS_CSS_FILTERS = ['compressor.filters.cssmin.CSSMinFilter']
@@ -59,12 +59,12 @@ ROOT_URLCONF = 'pinry.urls'
 LOGIN_REDIRECT_URL = '/'
 INTERNAL_IPS = ['127.0.0.1']
 MESSAGE_TAGS = {
-messages.WARNING: 'alert',
-messages.ERROR: 'alert alert-error',
-messages.SUCCESS: 'alert alert-success',
-messages.INFO: 'alert alert-info',
+    messages.WARNING: 'alert',
+    messages.ERROR: 'alert alert-error',
+    messages.SUCCESS: 'alert alert-success',
+    messages.INFO: 'alert alert-info',
 }
-API_LIMIT_PER_PAGE = 30
+API_LIMIT_PER_PAGE = 20
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -97,9 +97,10 @@ AUTH_PROFILE_MODULE = 'core.Member'
 SOCIAL_AUTH_DEFAULT_USERNAME = 'new_social_auth_user'
 SOCIAL_AUTH_COMPLETE_URL_NAME  = 'socialauth_complete'
 SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'socialauth_associate_complete'
-SOCIAL_AUTH_RAISE_EXCEPTIONS = True
+SOCIAL_AUTH_RAISE_EXCEPTIONS = False
 SOCIAL_AUTH_SESSION_EXPIRATION = True
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
-LOGIN_ERROR_URL = '/login-error/'
+LOGIN_ERROR_URL = '/'
+SOCIAL_AUTH_BACKEND_ERROR_URL = '/'

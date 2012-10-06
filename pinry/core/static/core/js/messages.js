@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var delayTime  = 3000,
+    var delayTime  = 1000,
         alerts     = $('.alert');
 
     delayTime = delayTime + (alerts.length * 250);

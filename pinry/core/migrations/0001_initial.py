@@ -12,6 +12,7 @@ class Migration(SchemaMigration):
         db.create_table('core_member', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True, null=True)),
+            ('avatar_url', self.gf('django.db.models.fields.files.ImageField')(default='/avatar/default_avatar.jpg', max_length=100)),
         ))
         db.send_create_signal('core', ['Member'])
 
@@ -58,6 +59,7 @@ class Migration(SchemaMigration):
         },
         'core.member': {
             'Meta': {'object_name': 'Member'},
+            'avatar_url': ('django.db.models.fields.files.ImageField', [], {'default': "'/avatar/default_avatar.jpg'", 'max_length': '100'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'user': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['auth.User']", 'unique': 'True', 'null': 'True'})
         }

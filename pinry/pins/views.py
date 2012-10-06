@@ -7,9 +7,7 @@ from .forms import PinForm
 from .models import Pin
 
 def recent_pins(request):
-    return TemplateResponse(request, 'pins/recent_pins.html', {
-                'username' : request.user.id
-            })
+    return TemplateResponse(request, 'pins/recent_pins.html', None)
 
 def new_pin(request):
     if request.method == 'POST':
@@ -33,7 +31,7 @@ def new_pin(request):
 def delete_pin(request, pin_id):
     try:
         pin = Pin.objects.get(id=pin_id)
-        if pin.submitter == request.user.get_profile():
+        if request.user.is_authenticated() and pin.submitter == request.user.get_profile():
             pin.delete()
             messages.success(request, 'Pin successfully deleted.')
         else:

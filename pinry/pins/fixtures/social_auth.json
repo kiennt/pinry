@@ -1,0 +1,22 @@
+[
+  {
+    "pk": 1, 
+    "model": "social_auth.usersocialauth", 
+    "fields": {
+      "uid": "562374010", 
+      "extra_data": "{\"access_token\": \"AAAGK5Ok32hkBAAHjQqHpdGpMhBA60s6UW4qv3iYAN2O7lU4oYIkVy4cNslCGkVx5GmYI2U0zXjlP9hSa4YRpBbjdRcuF9mHZB608auwZDZD\", \"expires\": \"5141278\", \"id\": \"562374010\"}", 
+      "user": 3, 
+      "provider": "facebook"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "social_auth.usersocialauth", 
+    "fields": {
+      "uid": "23426021", 
+      "extra_data": "{\"access_token\": \"oauth_token_secret=3H5x3ylNVBiA0k6lKcpHWbHdoeYth2WXQRnJdGSGw&oauth_token=23426021-1WSzRsdWMIRRLjRCyeYDQt7LBezAWa5iPGZdIhDPi\", \"id\": 23426021}", 
+      "user": 4, 
+      "provider": "twitter"
+    }
+  }
+]

@@ -1,0 +1,18 @@
+[
+  {
+    "pk": 1, 
+    "model": "core.member", 
+    "fields": {
+      "avatar_url": "/avatar/default_avatar.jpg", 
+      "user": 3
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "core.member", 
+    "fields": {
+      "avatar_url": "/avatar/default_avatar.jpg", 
+      "user": 4
+    }
+  }
+]

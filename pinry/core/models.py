@@ -5,6 +5,8 @@ from social_auth.signals import socialauth_registered
 
 class Member(models.Model):
     user = models.OneToOneField(User, null=True)
+    avatar_url = models.ImageField(upload_to="avatar",
+            default="/avatar/default_avatar.jpg")
 
     def __unicode__(self):
         return self.user.username

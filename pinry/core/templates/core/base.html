@@ -4,7 +4,11 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>{{ site_name }} - {% block title %}{% endblock %}</title>
+        {% if username %}
+            <title>{{ username }} / {{ site_name }}</title>
+        {% else %}
+            <title>{{ site_name }}</title>
+        {% endif %}
 
         {% compress css %}
             <link rel="stylesheet" href="/static/vendor/bootstrap/2.0.3/css/bootstrap.css">
@@ -47,6 +51,9 @@
         {% new_pin request %}
 
         {% compress js %}
+            <script type="text/javascript">
+            API_LIMIT_PER_PAGE = {{ API_LIMIT_PER_PAGE }}
+            </script>
             <script src="/static/vendor/jquery/1.7.2/jquery.js"></script>
             <script src="/static/vendor/bootstrap/2.0.3/js/bootstrap.js"></script>
             <script src="/static/vendor/wookmark/0.5/jquery.wookmark.js"></script>

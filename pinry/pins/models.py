@@ -8,20 +8,19 @@ import urllib2
 import os
 from PIL import Image
 
-
 class Pin(models.Model):
     submitter = models.ForeignKey(Member)
+    repin = models.IntegerField(null=True)
     url = models.TextField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to='pins/pin/originals/')
     thumbnail = models.ImageField(upload_to='pins/pin/thumbnails/')
     published = models.DateTimeField(auto_now_add=True)
+    view_count = models.IntegerField(default=0)
     tags = TaggableManager()
 
-
     def __unicode__(self):
-        return self.url
-
+        return "%s" % self.pk
 
     def save(self, *args, **kwargs):
         hash_name = os.urandom(32).encode('hex')
@@ -50,6 +49,19 @@ class Pin(models.Model):
 
         super(Pin, self).save(*args, **kwargs)
 
-
     class Meta:
         ordering = ['-id']
+
+class Like(models.Model):
+    author = models.ForeignKey(Member)
+    pin = models.ForeignKey(Pin)
+    created_time = models.DateTimeField(auto_now_add=True)
+
+class Comment(models.Model):
+    author = models.ForeignKey(Member)
+    pin = models.ForeignKey(Pin)
+    content = models.TextField(blank=False, null=False)
+    created_time = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return "%s comment on %s" % (author.user.username, pin.pk)

@@ -12,17 +12,44 @@ class Migration(SchemaMigration):
         db.create_table('pins_pin', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('submitter', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Member'])),
+            ('repin', self.gf('django.db.models.fields.IntegerField')(null=True)),
             ('url', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
             ('description', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
             ('image', self.gf('django.db.models.fields.files.ImageField')(max_length=100)),
             ('thumbnail', self.gf('django.db.models.fields.files.ImageField')(max_length=100)),
             ('published', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+            ('view_count', self.gf('django.db.models.fields.IntegerField')(default=0)),
         ))
         db.send_create_signal('pins', ['Pin'])
+
+        # Adding model 'Like'
+        db.create_table('pins_like', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('author', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Member'])),
+            ('pin', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['pins.Pin'])),
+            ('created_time', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+        ))
+        db.send_create_signal('pins', ['Like'])
+
+        # Adding model 'Comment'
+        db.create_table('pins_comment', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('author', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Member'])),
+            ('pin', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['pins.Pin'])),
+            ('content', self.gf('django.db.models.fields.TextField')()),
+            ('created_time', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+        ))
+        db.send_create_signal('pins', ['Comment'])
 
     def backwards(self, orm):
         # Deleting model 'Pin'
         db.delete_table('pins_pin')
+
+        # Deleting model 'Like'
+        db.delete_table('pins_like')
+
+        # Deleting model 'Comment'
+        db.delete_table('pins_comment')
 
     models = {
         'auth.group': {
@@ -63,10 +90,24 @@ class Migration(SchemaMigration):
         },
         'core.member': {
             'Meta': {'object_name': 'Member'},
-            'facebook_access_token': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'facebook_id': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
+            'avatar_url': ('django.db.models.fields.files.ImageField', [], {'default': "'/avatar/default_avatar.jpg'", 'max_length': '100'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"})
+            'user': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['auth.User']", 'unique': 'True', 'null': 'True'})
+        },
+        'pins.comment': {
+            'Meta': {'object_name': 'Comment'},
+            'author': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['core.Member']"}),
+            'content': ('django.db.models.fields.TextField', [], {}),
+            'created_time': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'pin': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['pins.Pin']"})
+        },
+        'pins.like': {
+            'Meta': {'object_name': 'Like'},
+            'author': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['core.Member']"}),
+            'created_time': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'pin': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['pins.Pin']"})
         },
         'pins.pin': {
             'Meta': {'ordering': "['-id']", 'object_name': 'Pin'},
@@ -74,9 +115,11 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100'}),
             'published': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'repin': ('django.db.models.fields.IntegerField', [], {'null': 'True'}),
             'submitter': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['core.Member']"}),
             'thumbnail': ('django.db.models.fields.files.ImageField', [], {'max_length': '100'}),
-            'url': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'})
+            'url': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'view_count': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         },
         'taggit.tag': {
             'Meta': {'object_name': 'Tag'},
