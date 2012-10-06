@@ -9,6 +9,7 @@
 /media/
 /static/
 /venv/
+/avatar
 *.pyc
 *.swp
 *.db
