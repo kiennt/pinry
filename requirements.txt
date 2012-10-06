@@ -7,3 +7,7 @@ cssmin==0.1.4
 jsmin==2.0.2
 -e git://github.com/hcarvalhoalves/django-taggit.git@e0f9642d7b94c8e6c0feb520d96bb6ae4d78a4d0#egg=django-taggit
 psycopg2==2.4.4
+-e git://github.com/kiennt/django-social-auth.git#egg=django-social-auth
+-e git://github.com/kiennt/django-activity-stream.git#egg=django-activity-stream
+-e git://github.com/kiennt/django-likes.git#egg=django-likes
+django-nose

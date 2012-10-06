@@ -6,6 +6,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.conf import settings
+from pinry.core.models import Member
 
 
 def home(request):
@@ -24,7 +25,9 @@ def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            member = Member.objects.create(user=user)
+
             messages.success(request, 'Thank you for registering, you can now '
                                       'login.')
             return HttpResponseRedirect(reverse('core:login'))
