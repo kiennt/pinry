@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib import messages
 from django.conf import settings
@@ -40,7 +41,7 @@ def register(request):
 
     return TemplateResponse(request, 'core/register.html', {'form': form})
 
-def login(request):
+def login_user(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect(reverse('core:home'))
 
@@ -50,7 +51,7 @@ def login(request):
 
     if form.is_valid():
         user = form.get_user()
-        if user.is_active():
+        if user.is_active:
             login(request, user)
             return HttpResponseRedirect(next_page)
         else:
