@@ -1,8 +1,5 @@
 from pinry.settings import *
 
-import os
-
-
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
@@ -17,4 +14,12 @@ DATABASES = {
     }
 }
 
-SECRET_KEY = '74ee58e8-0c43-11e2-b3c8-406c8f3d3467'
+SECRET_KEY = 'NTQ3ZjBhMDMtNmE1ZC00MDU5LWJmNjUtMzNkNmY1NjgwYjZl'
+
+# facebook config
+FB_APP_ID = '125531010927495'
+FB_APP_SECRET = '5ea4053396fbca1eb36d850f8a2819cb'
+
+# twitter config
+TWITTER_CONSUMER_KEY = ''
+TWITTER_CONSUMER_SECRET = ''

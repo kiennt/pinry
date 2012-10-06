@@ -8,21 +8,14 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'Pin'
-        db.create_table('pins_pin', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('submitter', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Member'])),
-            ('url', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-            ('description', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-            ('image', self.gf('django.db.models.fields.files.ImageField')(max_length=100)),
-            ('thumbnail', self.gf('django.db.models.fields.files.ImageField')(max_length=100)),
-            ('published', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-        ))
-        db.send_create_signal('pins', ['Pin'])
+        # Adding field 'Member.social_user'
+        db.add_column('core_member', 'social_user',
+                      self.gf('django.db.models.fields.related.ForeignKey')(to=orm['social_auth.UserSocialAuth'], null=True),
+                      keep_default=False)
 
     def backwards(self, orm):
-        # Deleting model 'Pin'
-        db.delete_table('pins_pin')
+        # Deleting field 'Member.social_user'
+        db.delete_column('core_member', 'social_user_id')
 
     models = {
         'auth.group': {
@@ -63,34 +56,18 @@ class Migration(SchemaMigration):
         },
         'core.member': {
             'Meta': {'object_name': 'Member'},
-            'facebook_access_token': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'facebook_id': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"})
+            'social_user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['social_auth.UserSocialAuth']", 'null': 'True'}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']", 'null': 'True'})
         },
-        'pins.pin': {
-            'Meta': {'ordering': "['-id']", 'object_name': 'Pin'},
-            'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+        'social_auth.usersocialauth': {
+            'Meta': {'unique_together': "(('provider', 'uid'),)", 'object_name': 'UserSocialAuth'},
+            'extra_data': ('social_auth.fields.JSONField', [], {'default': "'{}'"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100'}),
-            'published': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'submitter': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['core.Member']"}),
-            'thumbnail': ('django.db.models.fields.files.ImageField', [], {'max_length': '100'}),
-            'url': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'})
-        },
-        'taggit.tag': {
-            'Meta': {'object_name': 'Tag'},
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'slug': ('django.db.models.fields.SlugField', [], {'unique': 'True', 'max_length': '100'})
-        },
-        'taggit.taggeditem': {
-            'Meta': {'object_name': 'TaggedItem'},
-            'content_type': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'taggit_taggeditem_tagged_items'", 'to': "orm['contenttypes.ContentType']"}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'object_id': ('django.db.models.fields.IntegerField', [], {'db_index': 'True'}),
-            'tag': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'taggit_taggeditem_items'", 'to': "orm['taggit.Tag']"})
+            'provider': ('django.db.models.fields.CharField', [], {'max_length': '32'}),
+            'uid': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'social_auth'", 'to': "orm['auth.User']"})
         }
     }
 
-    complete_apps = ['pins']
+    complete_apps = ['core']

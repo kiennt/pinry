@@ -8,6 +8,7 @@ admin.autodiscover()
 
 
 urlpatterns = patterns('',
+    url(r'', include('social_auth.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include('pinry.api.urls', namespace='api')),
     url(r'^pins/', include('pinry.pins.urls', namespace='pins')),
