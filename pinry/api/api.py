@@ -15,6 +15,7 @@ from pinry.core.models import Member
 class PinResource(ModelResource):  # pylint: disable-msg=R0904
     tags = fields.ListField()
     author = fields.CharField()
+    is_owner = fields.BooleanField()
 
     class Meta:
         queryset = Pin.objects.all()
@@ -40,6 +41,11 @@ class PinResource(ModelResource):  # pylint: disable-msg=R0904
 
     def dehydrate_author(self, bundle):
         return bundle.obj.submitter.user.username
+
+    def dehydrate_is_owner(self , bundle):
+        if not bundle.request.user.is_authenticated:
+            return False
+        return bundle.request.user.pk == bundle.obj.submitter.user.pk
 
     def save_m2m(self, bundle):
         tags = bundle.data.get('tags', [])
