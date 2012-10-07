@@ -2,6 +2,22 @@
 
 {% block title %}Recent Pins{% endblock %}
 
+{% block css %}
+    <link rel="stylesheet" href="/static/vendor/fancybox/2.0.6/jquery.fancybox.css">
+{% endblock %}
+
+{% block javascript %}
+    <script src="/static/vendor/wookmark/0.5/jquery.wookmark.js"></script>
+    <script src="/static/vendor/fancybox/2.0.6/jquery.fancybox.js"></script>
+    <script src="/static/vendor/imagesloaded/2.0.1/jquery.imagesloaded.js"></script>
+
+    <script type="text/javascript">
+        API_LIMIT_PER_PAGE = {{ API_LIMIT_PER_PAGE }}
+    </script>
+    <script src="/static/core/js/pinry.js"></script>
+    <script src="/static/core/js/messages.js"></script>
+{% endblock %}
+
 {% block yield %}
     <div id="pins"></div>
     <div id="loader" class="container">

@@ -115,7 +115,7 @@ body {
        -moz-border-radius: 3px;
             border-radius: 3px;
 }
-    
+
     .pin:hover .pin-options {
         display: block;
     }
@@ -144,3 +144,15 @@ body {
         .form-actions {
             margin-bottom: 0;
         }
+
+.fb {background: #3b5998;}
+
+.fb:hover {background: #2b4582;}
+
+.fb a { color: #ffffff; text-decoration: none;}
+
+.tw { background: #32c1f0; }
+
+.tw:hover {background: #18b8ee; }
+
+.tw a { color: #ffffff; text-decoration: none;}

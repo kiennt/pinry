@@ -10,23 +10,24 @@
                 <h1>Login</h1>
                 <form action="{% url core:login %}" method="post" class="form-horizontal">
                     {% csrf_token %}
-                    <div class="form-actions">
-                        <a href="{% url socialauth_begin 'facebook' %}" class="btn">Login with Facebook</a>
-                        <a href="{% url socialauth_begin 'twitter' %}" class="btn">Loging with Twitter</a>
-                    </div>
+
+                    {% include "core/social_login.html" %}
 
                     {% for field in form %}
                         {% bootstrap_field field %}
                     {% endfor %}
 
-                    {% if message %}
-                        <div class="message">{{ message }}</div>
+                    {% if form.errors %}
+                        {% for type, error in form.errors.items %}
+                            {% if type == '__all__' %}
+                                <div class="alert alert-error">{{ error }}</div>
+                            {% endif %}
+                        {% endfor %}
                     {% endif %}
+
                     <div class="form-actions">
-                        <button type="submit" class="btn btn-primary">Login</button>
-                        <a href="{% url core:home %}" class="btn">Cancel</a>
+                        <button type="submit" class="btn-large btn-primary">Login</button>
                     </div>
-                    <div class="fb-login-button"></div>
                 </form>
             </div>
         </div>

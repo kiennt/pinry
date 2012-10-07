@@ -1,0 +1,12 @@
+<div class="row-fluid">
+    <div class="span1"></div>
+    <div class="span5 btn-large fb">
+    <!--<img src="/static/core/img/facebook.png" />-->
+        <a href="{% url socialauth_begin 'facebook' %}">Login with Facebook</a>
+    </div>
+    <div class="span5 btn-large tw">
+    <!--<img src="/static/core/img/twitter.png" />-->
+        <a href="{% url socialauth_begin 'twitter' %}">Loging with Twitter</a>
+    </div>
+    <div class="span12"></div>
+</div>

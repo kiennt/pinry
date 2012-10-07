@@ -88,7 +88,7 @@ function onLoadData(data) {
         html += '       </a>';
 
         html += '       <a href="/pins/'+image.id+'/repin">';
-        html += '           <div class="icon-refresh"></div>';
+        html += '           <div class="icon-retweet"></div>';
         html += '       </a>';
 
         html += '   </div>';

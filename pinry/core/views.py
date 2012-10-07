@@ -4,7 +4,9 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib.auth import login
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
+from django.forms import ValidationError
 from django.contrib import messages
 from django.conf import settings
 from pinry.core.models import Member
@@ -45,23 +47,16 @@ def login_user(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect(reverse('core:home'))
 
-    message = ""
     next_page = request.GET.get('next', reverse('core:home'))
     form = AuthenticationForm(None, request.POST or None)
 
-    if form.is_valid():
-        user = form.get_user()
-        if user.is_active:
-            login(request, user)
-            return HttpResponseRedirect(next_page)
-        else:
-            message = "Your account is not active. Please contact the admin"
-    else:
-        message = "Your username and/or password were incorrect"
-
-    return TemplateResponse(request, 'core/login.html', {
-                'form': form, 'message': message
-            })
+    if request.method == 'POST':
+        if form.is_valid():
+            user = form.get_user()
+            if user.is_active:
+                login(request, user)
+                return HttpResponseRedirect(next_page)
+    return TemplateResponse(request, 'core/login.html', { 'form': form })
 
 @login_required
 def logout_user(request):
