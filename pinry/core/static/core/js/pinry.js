@@ -79,6 +79,10 @@ function onLoadData(data) {
         html += '<div class="pin">';
         html += '   <div class="pin-options">';
 
+        html += '       <a href="/pins/delete-pin/'+image.id+'/">';
+        html += '           <div class="icon-trash"></div>';
+        html += '       </a>';
+
         html += '       <a href="/pins/'+image.id+'/like">';
         html += '           <div class="icon-heart"></div>';
         html += '       </a>';
