@@ -43,9 +43,10 @@ class PinResource(ModelResource):  # pylint: disable-msg=R0904
         return bundle.obj.submitter.user.username
 
     def dehydrate_is_owner(self , bundle):
-        if not bundle.request.user.is_authenticated:
+        if not bundle.request.user.is_authenticated():
             return False
-        return bundle.request.user.pk == bundle.obj.submitter.user.pk
+        else:
+            return bundle.request.user.pk == bundle.obj.submitter.user.pk
 
     def save_m2m(self, bundle):
         tags = bundle.data.get('tags', [])
