@@ -11,9 +11,12 @@
         {% endif %}
 
         {% compress css %}
-            <link rel="stylesheet" href="/static/vendor/bootstrap/2.0.3/css/bootstrap.css">
+        <link rel="stylesheet" href="/static/vendor/bootstrap/2.0.3/css/bootstrap.css">
+        <link rel="stylesheet" href="/static/vendor/fancybox/2.0.6/jquery.fancybox.css">
+        {% endcompress %}
+
+        {% compress css %}
             <link rel="stylesheet" href="/static/core/css/pinry.css">
-            <link rel="stylesheet" href="/static/vendor/fancybox/2.0.6/jquery.fancybox.css">
             {% block css %}{% endblock %}
         {% endcompress %}
 
@@ -53,10 +56,10 @@
         {% endif %}
 
         {% compress js %}
-            <script src="/static/vendor/jquery/1.7.2/jquery.js"></script>
-            <script src="/static/vendor/bootstrap/2.0.3/js/bootstrap.js"></script>
-            {% block javascript %}{% endblock %}
+        <script src="/static/vendor/jquery/1.7.2/jquery.js"></script>
+        <script src="/static/vendor/bootstrap/2.0.3/js/bootstrap.js"></script>
         {% endcompress %}
+        {% block javascript %}{% endblock %}
 
     </body>
 </html>
