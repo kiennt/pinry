@@ -52,14 +52,14 @@
         {% block yield %}{% endblock %}
 
         {% if user.is_authenticated %}
-          {% new_pin request %}
+            {% new_pin request %}
         {% endif %}
 
         {% compress js %}
-        <script src="/static/vendor/jquery/1.7.2/jquery.js"></script>
-        <script src="/static/vendor/bootstrap/2.0.3/js/bootstrap.js"></script>
+            <script src="/static/vendor/jquery/1.7.2/jquery.js"></script>
+            <script src="/static/vendor/bootstrap/2.0.3/js/bootstrap.js"></script>
+            {% block javascript %}{% endblock %}
         {% endcompress %}
-        {% block javascript %}{% endblock %}
 
     </body>
 </html>
