@@ -2,6 +2,8 @@ from django.test import TestCase
 from pinry.api.tests.test_client import TestClient
 
 class TestRecentPins(TestCase):
+    fixtures = ['user.json', 'member.json', 'pins.json']
+
     def setUp(self):
         self.client = TestClient()
         self.url = '/api/pin/?format=json'

@@ -3,7 +3,7 @@ from pinry.settings import *
 import os
 
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 DATABASES = {

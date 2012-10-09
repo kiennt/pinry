@@ -58,6 +58,11 @@
         {% compress js %}
             <script src="/static/vendor/jquery/1.7.2/jquery.js"></script>
             <script src="/static/vendor/bootstrap/2.0.3/js/bootstrap.js"></script>
+            <script src="/static/vendor/underscore/underscore.js"></script>
+            <script src="/static/vendor/backbone/backbone.js"></script>
+        {% endcompress %}
+
+        {% compress js %}
             {% block javascript %}{% endblock %}
         {% endcompress %}
 
