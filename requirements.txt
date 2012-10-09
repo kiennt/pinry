@@ -11,3 +11,4 @@ psycopg2==2.4.4
 -e git://github.com/kiennt/django-activity-stream.git#egg=django-activity-stream
 -e git://github.com/kiennt/django-likes.git#egg=django-likes
 django-nose
+django-debug-toolbar

@@ -23,10 +23,7 @@ def new_pin(request):
             messages.error(request, 'Pin did not pass validation!')
     else:
         form = PinForm()
-    context = {
-        'form': form,
-    }
-    return TemplateResponse(request, 'pins/new_pin.html', context)
+    return TemplateResponse(request, 'pins/new_pin.html', {'form': form})
 
 def delete_pin(request, pin_id):
     try:
