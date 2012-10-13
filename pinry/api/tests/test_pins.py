@@ -1,63 +1,59 @@
 import nose
 import json
-from django.test import TestCase
-from django.contrib.auth.models import User
 
-from pinry.api.tests.test_client import TestClient
+from pinry.api.tests.test_base import TestBaseAPI
 from pinry.pins.models import Pin
 
-class TestPins(TestCase):
-    fixtures = ['user.json', 'member.json', 'pins.json']
+class TestPins(TestBaseAPI):
+    def test_modify_pin(self):
+        """ Create new pin and modify it """
+        pin = self.create_new_pin(self.member)
+        res = self.client.put('/api/pin/%s/' % pin.pk, data=json.dumps({
+                    "description" : "new test"
+                }), content_type="application/json")
+        pin = Pin.objects.get(pk=pin.pk)
+        self.assertEquals("new test", pin.description)
 
-    def setUp(self):
-        self.client = TestClient()
-        self.user = User.objects.get(username='test')
-        self.member = self.user.get_profile()
-        self.client.login_user(self.user)
-
-    def _count_pins(self, member):
-        return Pin.objects.filter(submitter=member).count()
-
-    def _create_new_pin(self, member):
-        return Pin.objects.create(
-                submitter=member,
-                url='',
-                image='test.jpg',
-                thumbnail='test_thumb.jpg')
-
-    def test_create_pin(self):
-        pin_count = self._count_pins(self.member)
-
-        with open('media/pins/pin/originals/1135968047.jpg') as f:
-            res = self.client.post('/api/pin/', {
-                        'url': '',
-                        'image': f.read(),
-                        'description': 'testing api create pin',
-                        'tags': ['girls']
-                    })
-            self.assertEquals(200, res.status_code)
-            self.assertEquals(pin_count + 1, self._count_pins(self.member))
+    def test_modify_other_pin(self):
+        """ Modify other pin """
+        pin = Pin.objects.exclude(submitter=self.member)[0]
+        description = pin.description
+        res = self.client.put('/api/pin/%s/' % pin.pk, data=json.dumps({
+                    "description" : "new test"
+                }), content_type="application/json")
+        pin = Pin.objects.get(pk=pin.pk)
+        self.assertEquals(description, pin.description)
 
     def test_delete_pin(self):
-        pin_count = self._count_pins(self.member)
-        pin = self._create_new_pin(self.member)
+        """ Create new pin and delete it. Check number of pin """
+        pin_count = self.count_pins(self.member)
+        pin = self.create_new_pin(self.member)
+        self.assertEquals(pin_count + 1, self.count_pins(self.member))
         res = self.client.delete('/api/pin/%s/' % pin.pk)
-        self.assertEquals(200, res.status_code)
-        self.assertEquals(pin_count, self._count_pins(self.member))
+        self.assertEquals(pin_count, self.count_pins(self.member))
+
+    def test_delete_other_user_pin(self):
+        """ Try to delete other pin """
+        pin = Pin.objects.exclude(submitter=self.member)[0]
+
+        pin_count = self.count_pins(self.member)
+        res = self.client.delete('/api/pin/%s/' % pin.pk)
+        self.assertEquals(pin_count, self.count_pins(self.member))
 
     def test_get_pin(self):
-        pin = self._create_new_pin(self.member)
+        """ Get a specific pin """
+        pin = self.create_new_pin(self.member)
         res = self.client.get('/api/pin/%s/' % pin.pk)
         self.assertEquals(200, res.status_code)
         data = json.loads(res.content)
-        self.assertEquals(pin.pk, data['pk'])
         self.assertEquals(pin.url, data['url'])
-        self.assertEquals(pin.submitter.pk, data['submitter'])
-        self.assertEquals(pin.image, data['image'])
-        self.assertEquals(pin.thumbnail, data['thumbnail'])
-        self.assertEquals(pin.tags, data['tags'])
+        self.assertEquals(self.user.username, data['author'])
+        self.assertEquals(pin.image.url, data['image'])
+        self.assertEquals(pin.thumbnail.url, data['thumbnail'])
+        self.assertEquals([], data['tags'])
 
     def test_get_list_pins(self):
+        """ Get list of pin """
         res = self.client.get('/api/pin/?limit=5')
         self.assertEquals(200, res.status_code)
         data = json.loads(res.content)

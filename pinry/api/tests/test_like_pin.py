@@ -1,12 +1,10 @@
-from django.test import TestCase
-from pinry.api.tests.test_client import TestClient
+import nose
+import json
 
-class LikePinTest(TestCase):
-    fixtures = ['user.json', 'social_auth.json', 'member.json', 'pin.json']
+from pinry.api.tests.test_base import TestBaseAPI
+from pinry.pins.models import Pin
 
-    def setUp(self):
-        self.client = TestClient()
-
+class TestLike(TestBaseAPI):
     def test_get_likes_for_pin(self):
         pass
 

@@ -4,11 +4,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-        {% if username %}
-            <title>{{ username }}/{{ site_name }}/{% block title %}{% endblock %}</title>
-        {% else %}
-            <title>{{ site_name }}</title>
-        {% endif %}
+        <title>
+            {% if username %}{{ username }}/{% endif %}{{ site_name }}/{% block title %}{% endblock %}
+        </title>
 
         {% compress css %}
         <link rel="stylesheet" href="/static/vendor/bootstrap/2.0.3/css/bootstrap.css">
